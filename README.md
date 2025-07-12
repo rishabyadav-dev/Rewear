@@ -1,16 +1,30 @@
+# Team CodeCrusaders
+
+**Members:** Salil Pal, Rishab Yadav, Lakshay Goel, Kushal Girdhar
+
+---
+
 # Clothing Swap Marketplace
 
-A modern Next.js application for swapping clothing items between users. Built with TypeScript, Prisma, PostgreSQL, and Tailwind CSS.
+A modern, full-featured Next.js application for swapping clothing items between users. Built with TypeScript, Prisma, PostgreSQL, and Tailwind CSS by Team CodeCrusaders.
 
-## Features
+## 🌟 Features
 
-- 🛍️ **Item Listings**: Create and browse clothing items for swap
+- 🛍️ **Item Listings**: Create, browse, and manage clothing items for swap
+- 📸 **Image Upload & Gallery**: Upload multiple images per item, with robust preview and display everywhere
 - 💰 **Points System**: Swap items using points or direct trades
-- 👥 **User Profiles**: User ratings, reviews, and profiles
-- 🔍 **Advanced Search**: Filter by category, condition, size, and more
-- 💬 **Messaging**: Communicate with other users about trades
-- 📱 **Responsive Design**: Works on all devices
-- 🎨 **Modern UI**: Built with shadcn/ui components
+- 👤 **User Profiles**: Ratings, reviews, avatars, and location for every user
+- 🔍 **Advanced Search & Filters**: Find items by category, condition, size, brand, color, and more
+- 🏷️ **Tags & Categories**: Organize and discover items with tags and rich categories
+- 💬 **Messaging**: Communicate with other users about trades (planned)
+- 📱 **Responsive Design**: Beautiful and functional on all devices
+- 🎨 **Modern UI**: Built with shadcn/ui and Tailwind CSS for a delightful experience
+- 🏆 **Dashboard & Stats**: Track your points, listings, swaps, and achievements
+- 🗂️ **Admin Panel**: Manage listings and users (for admins)
+- 🔒 **Authentication**: Secure login with NextAuth.js (Google, email, etc.)
+- ⚡ **Fast & Reliable**: Optimized queries, instant search, and smooth navigation
+- 🛡️ **Robust Error Handling**: Friendly messages and fallbacks everywhere
+- 🧑‍💻 **Developer Friendly**: Clean code, clear structure, and easy to extend
 
 ## Tech Stack
 
@@ -21,7 +35,6 @@ A modern Next.js application for swapping clothing items between users. Built wi
 - **UI Components**: shadcn/ui
 - **State Management**: Zustand + React Query
 - **Authentication**: NextAuth.js v5
-- **Real-time**: Socket.io (planned)
 
 ## Database Schema
 
@@ -44,7 +57,7 @@ The application uses Prisma with PostgreSQL and includes the following models:
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - PostgreSQL database
 - npm or pnpm
 
@@ -66,11 +79,11 @@ The application uses Prisma with PostgreSQL and includes the following models:
    ```env
    # Database
    DATABASE_URL="postgresql://username:password@localhost:5432/clothing_swap?schema=public"
-   
+
    # NextAuth.js
    NEXTAUTH_SECRET="your-secret-key-here"
    NEXTAUTH_URL="http://localhost:3000"
-   
+
    # OAuth Providers (Optional)
    GOOGLE_CLIENT_ID="your-google-client-id"
    GOOGLE_CLIENT_SECRET="your-google-client-secret"
@@ -80,13 +93,13 @@ The application uses Prisma with PostgreSQL and includes the following models:
    ```bash
    # Generate Prisma client
    npm run db:generate
-   
+
    # Push schema to database (for development)
    npm run db:push
-   
+
    # Or run migrations (for production)
    npm run db:migrate
-   
+
    # Seed the database with sample data
    npm run db:seed
    ```
@@ -246,4 +259,4 @@ This project is licensed under the MIT License.
 
 ## Support
 
-For questions or issues, please open an issue on the project repository. 
+For questions or issues, please open an issue on the project repository.
