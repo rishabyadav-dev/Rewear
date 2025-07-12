@@ -172,7 +172,15 @@ export function ProductGrid() {
                 <Card className="overflow-hidden hover:shadow-lg transition-all duration-300">
                   <div className="relative">
                     <img
-                      src={listing.images[0] || "/placeholder.svg"}
+                      src={
+                        Array.isArray(listing.images) && listing.images.length > 0
+                          ? (typeof listing.images[0] === 'string'
+                              ? listing.images[0]
+                              : (listing.images[0] && typeof listing.images[0] === 'object' && 'url' in listing.images[0]
+                                  ? (listing.images[0] as { url: string }).url
+                                  : undefined))
+                          : "/placeholder.svg"
+                      }
                       alt={listing.title}
                       className="w-full h-48 object-cover"
                     />

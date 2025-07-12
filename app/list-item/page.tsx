@@ -525,7 +525,13 @@ export default function ListItemPage() {
                   {formData.images.length > 0 && (
                     <div className="w-24 h-24 rounded-lg overflow-hidden bg-muted">
                       <img
-                        src={URL.createObjectURL(formData.images[0]) || "/placeholder.svg"}
+                        src={
+                          typeof formData.images[0] === 'string'
+                            ? formData.images[0]
+                            : formData.images[0] instanceof File
+                              ? URL.createObjectURL(formData.images[0])
+                              : "/placeholder.svg"
+                        }
                         alt="Preview"
                         className="w-full h-full object-cover"
                       />

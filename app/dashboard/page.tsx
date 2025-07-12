@@ -187,7 +187,15 @@ export default function DashboardPage() {
                       userListings.map((listing) => (
                         <div key={listing.id} className="flex items-center space-x-4 p-4 rounded-lg border">
                           <img
-                            src={listing.images[0] || "/placeholder.svg"}
+                            src={
+                              Array.isArray(listing.images) && listing.images.length > 0
+                                ? (typeof listing.images[0] === 'string'
+                                    ? listing.images[0]
+                                    : (listing.images[0] && typeof listing.images[0] === 'object' && 'url' in listing.images[0]
+                                        ? (listing.images[0] as { url: string }).url
+                                        : undefined))
+                                : "/placeholder.svg"
+                            }
                             alt={listing.title}
                             className="w-16 h-16 rounded-lg object-cover"
                           />
