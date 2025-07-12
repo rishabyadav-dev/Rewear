@@ -1,8 +1,8 @@
 "use client"
 
 import { useAuth } from "@/hooks/use-auth"
-import { useRouter, useSearchParams } from "next/navigation"
-import { useEffect, Suspense } from "react"
+import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
@@ -14,7 +14,7 @@ interface AuthGuardProps {
   adminOnly?: boolean
 }
 
-function AuthGuardInner({ 
+export function AuthGuard({ 
   children, 
   fallback, 
   requireAuth = true,
@@ -22,17 +22,12 @@ function AuthGuardInner({
 }: AuthGuardProps) {
   const { user, isLoading, isAuthenticated } = useAuth()
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get("callbackUrl")
 
   useEffect(() => {
     if (!isLoading && requireAuth && !isAuthenticated) {
-      const loginUrl = callbackUrl 
-        ? `/login?callbackUrl=${encodeURIComponent(callbackUrl)}`
-        : "/login"
-      router.push(loginUrl)
+      router.push("/login")
     }
-  }, [isLoading, isAuthenticated, requireAuth, router, callbackUrl])
+  }, [isLoading, isAuthenticated, requireAuth, router])
 
   // Show loading state
   if (isLoading) {
@@ -77,7 +72,6 @@ function AuthGuardInner({
   }
 
   // Check if user is admin when admin access is required
-  // Note: Role-based access control would need to be implemented in the database schema
   if (adminOnly) {
     // For now, we'll check if the user email is in a list of admin emails
     // In a real app, you'd want to store roles in the database
@@ -106,23 +100,4 @@ function AuthGuardInner({
   }
 
   return <>{children}</>
-}
-
-export function AuthGuard(props: AuthGuardProps) {
-  return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center">
-        <Card className="w-full max-w-md">
-          <CardContent className="flex items-center justify-center p-8">
-            <div className="flex items-center space-x-2">
-              <Loader2 className="h-6 w-6 animate-spin" />
-              <span>Loading...</span>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    }>
-      <AuthGuardInner {...props} />
-    </Suspense>
-  )
 } 

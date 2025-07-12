@@ -9,7 +9,7 @@ import { Package, ArrowUpRight, Award, Leaf, TrendingUp, Plus, Eye, Heart, Edit,
 import { useAuth } from "@/hooks/use-auth"
 import { useListingsContext } from "@/contexts/listings-context"
 import { Navbar } from "@/components/navbar"
-import { AuthGuard } from "@/components/auth-guard"
+import { AuthGuard } from "@/components/auth-guard-simple"
 import Link from "next/link"
 
 function getUserPoints(user: any): number {

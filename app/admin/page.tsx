@@ -21,7 +21,7 @@ import {
 } from "lucide-react"
 import { useAuth } from "@/hooks/use-auth"
 import { useToast } from "@/hooks/use-toast"
-import { AuthGuard } from "@/components/auth-guard"
+import { AuthGuard } from "@/components/auth-guard-simple"
 
 export default function AdminPage() {
   const { user } = useAuth()

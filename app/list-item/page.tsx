@@ -16,7 +16,7 @@ import { ImageUpload } from "@/components/image-upload"
 import { ArrowLeft, ArrowRight, Check, Upload, Tag, Shirt, DollarSign } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { useListingsContext } from "@/contexts/listings-context"
-import { AuthGuard } from "@/components/auth-guard"
+import { AuthGuard } from "@/components/auth-guard-simple"
 
 interface CategoryOption {
   id: string;
