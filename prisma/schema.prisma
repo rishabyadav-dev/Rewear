@@ -1,0 +1,229 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  avatar    String?
+  location  String?
+  bio       String?
+  rating    Float    @default(4.5)
+  points    Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // NextAuth.js fields
+  emailVerified DateTime?
+  image         String?
+  password      String?
+
+  // Relations
+  listings     Listing[]
+  favorites    Favorite[]
+  transactions Transaction[] @relation("UserTransactions")
+  messages     Message[]
+  reviews      Review[]      @relation("UserReviews")
+  receivedReviews Review[]   @relation("ReviewedUser")
+  accounts     Account[]
+  sessions     Session[]
+
+  @@map("users")
+}
+
+model Category {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  icon        String?
+  color       String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  listings Listing[]
+
+  @@map("categories")
+}
+
+model Listing {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  pointsValue Int      @default(0)
+  condition   String   // Like New, Excellent, Very Good, Good, Fair
+  size        String
+  brand       String?
+  color       String?
+  swapType    SwapType @default(POINTS)
+  isActive    Boolean  @default(true)
+  views       Int      @default(0)
+  likes       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  userId     String
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  categoryId String
+  category   Category   @relation(fields: [categoryId], references: [id])
+  images     ListingImage[]
+  tags       Tag[]
+  favorites  Favorite[]
+  transactions Transaction[]
+
+  @@map("listings")
+}
+
+model ListingImage {
+  id        String   @id @default(cuid())
+  url       String
+  alt       String?
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+
+  // Relations
+  listingId String
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  @@map("listing_images")
+}
+
+model Tag {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+
+  // Relations
+  listings Listing[]
+
+  @@map("tags")
+}
+
+model Favorite {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  // Relations
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  listingId String
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, listingId])
+  @@map("favorites")
+}
+
+model Transaction {
+  id          String           @id @default(cuid())
+  status      TransactionStatus @default(PENDING)
+  swapType    SwapType
+  pointsValue Int?
+  notes       String?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  // Relations
+  buyerId    String
+  buyer      User    @relation("UserTransactions", fields: [buyerId], references: [id])
+  listingId  String
+  listing    Listing @relation(fields: [listingId], references: [id])
+  messages   Message[]
+
+  @@map("transactions")
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  content   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  // Relations
+  senderId  String
+  sender    User    @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  transactionId String?
+  transaction Transaction? @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+
+  @@map("messages")
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  rating    Int      @default(5)
+  comment   String?
+  createdAt DateTime @default(now())
+
+  // Relations
+  reviewerId String
+  reviewer   User    @relation("UserReviews", fields: [reviewerId], references: [id], onDelete: Cascade)
+  reviewedUserId String
+  reviewedUser User  @relation("ReviewedUser", fields: [reviewedUserId], references: [id], onDelete: Cascade)
+
+  @@unique([reviewerId, reviewedUserId])
+  @@map("reviews")
+}
+
+enum SwapType {
+  POINTS
+  DIRECT
+}
+
+enum TransactionStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  COMPLETED
+  CANCELLED
+}
+
+// NextAuth.js Models
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
