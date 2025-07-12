@@ -16,6 +16,7 @@ import { ImageUpload } from "@/components/image-upload"
 import { ArrowLeft, ArrowRight, Check, Upload, Tag, Shirt, DollarSign } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { useListingsContext } from "@/contexts/listings-context"
+import { AuthGuard } from "@/components/auth-guard"
 
 interface CategoryOption {
   id: string;
@@ -214,9 +215,10 @@ export default function ListItemPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-      <div className="container mx-auto px-4 py-8">
+    <AuthGuard>
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
@@ -563,5 +565,6 @@ export default function ListItemPage() {
         </div>
       </div>
     </div>
+    </AuthGuard>
   )
 }

@@ -31,7 +31,9 @@ export function useAuth() {
 
   const loginWithGoogle = async () => {
     try {
-      await signIn("google", { callbackUrl: "/dashboard" })
+      const urlParams = new URLSearchParams(window.location.search)
+      const callbackUrl = urlParams.get("callbackUrl")
+      await signIn("google", { callbackUrl: callbackUrl || "/dashboard" })
     } catch (error) {
       console.error("Google login error:", error)
     }

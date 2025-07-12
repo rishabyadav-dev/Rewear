@@ -67,7 +67,9 @@ function LoginPageInner() {
           title: "Welcome back!",
           description: "You have successfully signed in.",
         })
-        router.push("/dashboard")
+        // Redirect to callback URL if provided, otherwise to dashboard
+        const callbackUrl = searchParams.get("callbackUrl")
+        router.push(callbackUrl || "/dashboard")
       } else {
         toast({
           title: "Error",
@@ -94,7 +96,9 @@ function LoginPageInner() {
         title: "Welcome!",
         description: "You have successfully signed in with Google.",
       })
-      router.push("/dashboard")
+      // Redirect to callback URL if provided, otherwise to dashboard
+      const callbackUrl = searchParams.get("callbackUrl")
+      router.push(callbackUrl || "/dashboard")
     } catch (error) {
       toast({
         title: "Error",

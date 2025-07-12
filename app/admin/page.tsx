@@ -21,6 +21,7 @@ import {
 } from "lucide-react"
 import { useAuth } from "@/hooks/use-auth"
 import { useToast } from "@/hooks/use-toast"
+import { AuthGuard } from "@/components/auth-guard"
 
 export default function AdminPage() {
   const { user } = useAuth()
@@ -162,8 +163,9 @@ export default function AdminPage() {
   // }
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container py-8">
+    <AuthGuard adminOnly={true}>
+      <div className="min-h-screen bg-background">
+        <div className="container py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
@@ -390,5 +392,6 @@ export default function AdminPage() {
         </Tabs>
       </div>
     </div>
+    </AuthGuard>
   )
 }

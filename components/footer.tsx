@@ -1,5 +1,5 @@
-import Link from "next/link"
-import { Leaf } from "lucide-react"
+import Link from "next/link";
+import { Leaf } from "lucide-react";
 
 export function Footer() {
   return (
@@ -11,7 +11,9 @@ export function Footer() {
               <Leaf className="h-6 w-6 text-green-600" />
               <span className="text-xl font-bold">ReWear</span>
             </div>
-            <p className="text-sm text-muted-foreground">Making fashion circular, one swap at a time.</p>
+            <p className="text-sm text-muted-foreground">
+              Making fashion circular, one swap at a time.
+            </p>
           </div>
 
           <div>
@@ -65,5 +67,5 @@ export function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }

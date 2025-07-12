@@ -9,6 +9,7 @@ import { Package, ArrowUpRight, Award, Leaf, TrendingUp, Plus, Eye, Heart, Edit,
 import { useAuth } from "@/hooks/use-auth"
 import { useListingsContext } from "@/contexts/listings-context"
 import { Navbar } from "@/components/navbar"
+import { AuthGuard } from "@/components/auth-guard"
 import Link from "next/link"
 
 function getUserPoints(user: any): number {
@@ -88,9 +89,10 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <AuthGuard>
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
@@ -309,5 +311,6 @@ export default function DashboardPage() {
         </div>
       </div>
     </div>
+    </AuthGuard>
   )
 }
